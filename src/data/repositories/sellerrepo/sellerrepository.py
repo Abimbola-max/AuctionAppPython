@@ -4,6 +4,7 @@ from pymongo import MongoClient
 
 from src.data.models.seller import Seller
 from src.data.repositories.sellerrepo.sellerinterface import SellerInterface
+from src.exceptions.allexceptions import InvalidDetailsException
 
 
 class SellerRepository(SellerInterface):
@@ -25,3 +26,14 @@ class SellerRepository(SellerInterface):
         insert_document = self.collection.insert_one(seller_data)
         seller.seller_id = str(insert_document.inserted_id)
         return seller
+
+    def email_exists(self, email: str) -> bool:
+        return self.collection.find_one({"email": email}) is not None
+
+    def exists_by_id(self, seller_id: str) -> bool:
+        from bson import ObjectId
+        try:
+            _id = ObjectId(seller_id)
+        except InvalidDetailsException:
+            return False
+        return self.collection.find_one({"_id": _id}) is not None

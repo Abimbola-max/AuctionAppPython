@@ -1,6 +1,7 @@
 from abc import ABC
 
 from src.data.models.UserType import UserType
+from src.services.passwordsecurity.passwordencrypt import PasswordEncrypt
 
 
 class User(ABC):
@@ -43,7 +44,7 @@ class User(ABC):
 
     @password.setter
     def password(self, password):
-        self.__password = password
+        self.__password = PasswordEncrypt.encrypt_password(password)
 
     @property
     def user_type(self):
