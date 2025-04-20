@@ -1,16 +1,10 @@
-import logging
-import sys
 
 from src.data.models.seller import Seller
 from src.data.repositories.sellerrepo.sellerrepository import SellerRepository
-from src.dtos.sellerdto.sellerloginrequest import LoginRequest
-from src.dtos.sellerdto.sellerrequest import SellerRequestDTO
 from src.dtos.sellerdto.sellerresponse import SellerResponseDTO
-from src.exceptions.allexceptions import EmailAlreadyExistException, InvalidDetailsException, NotFoundException, \
-    IncorrectPasswordException
+from src.exceptions.allexceptions import *
 from src.services.passwordsecurity.passwordencrypt import PasswordEncrypt
 
-logger = logging.getLogger(__name__)
 
 class SellerService:
 
