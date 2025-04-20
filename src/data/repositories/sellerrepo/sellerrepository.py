@@ -4,7 +4,7 @@ from pymongo import MongoClient
 
 from src.data.models.seller import Seller
 from src.data.repositories.sellerrepo.sellerinterface import SellerInterface
-from src.exceptions.allexceptions import InvalidDetailsException
+from src.exceptions.allexceptions import InvalidDetailsException, NotFoundException
 
 
 class SellerRepository(SellerInterface):
@@ -37,3 +37,9 @@ class SellerRepository(SellerInterface):
         except InvalidDetailsException:
             return False
         return self.collection.find_one({"_id": _id}) is not None
+
+    def find_by_email(self, email: str) -> Seller:
+        data = self.collection.find_one({'email': email})
+        if not data:
+            raise NotFoundException("Not found.")
+        return Seller(**data)

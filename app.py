@@ -26,6 +26,10 @@ def register_seller():
 def create_product():
     return product_controller.create_product()
 
+@app.route('/login_seller', methods=['POST'])
+def login_seller():
+    return seller_controller.login_seller()
+
 
 if __name__ == '__main__':
     app.run(debug=True)

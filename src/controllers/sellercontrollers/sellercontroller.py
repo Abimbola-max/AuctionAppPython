@@ -1,7 +1,11 @@
 from flask import request, jsonify
+from marshmallow import ValidationError
 
 from src.data.repositories.sellerrepo.sellerrepository import SellerRepository
+from src.dtos.sellerdto.loginresponse import LoginResponse
+from src.dtos.sellerdto.sellerloginrequest import LoginRequest
 from src.dtos.sellerdto.sellerrequest import SellerRequestDTO
+from src.exceptions.allexceptions import InvalidDetailsException
 from src.services.sellerservices.sellerservice import SellerService
 
 
@@ -20,3 +24,14 @@ class SellerController:
 
         except Exception as e:
             return jsonify({'error': str(e)}), 400
+
+    def login_seller(self):
+        try:
+            data = request.get_json()
+            login_data = LoginRequest().load(data)
+            response_data = self.seller_service.login_seller(login_data)
+            return jsonify(LoginResponse().dump(response_data)), 201
+        except ValidationError as err:
+            return jsonify({"errors": err.messages}), 400
+        except InvalidDetailsException as e:
+            return jsonify({"error": str(e)}), 401

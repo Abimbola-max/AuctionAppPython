@@ -44,7 +44,7 @@ class User(ABC):
 
     @password.setter
     def password(self, password):
-        self.__password = PasswordEncrypt.encrypt_password(password)
+        self.__password = password
 
     @property
     def user_type(self):

@@ -16,3 +16,7 @@ class SellerInterface(ABC):
     @abstractmethod
     def exists_by_id(self, seller_id: str) -> bool:
         pass
+
+    @abstractmethod
+    def find_by_email(self, email: str) -> Seller:
+        pass
