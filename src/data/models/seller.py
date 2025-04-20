@@ -4,7 +4,7 @@ from src.data.models.user import User
 
 class Seller(User):
 
-    def __init__(self, _id, first_name: str, last_name: str, email: str, password: str, account_number: str, bank_name: str):
+    def __init__(self, first_name: str, last_name: str, email: str, password: str, account_number: str, bank_name: str, _id= None):
         super().__init__(first_name, last_name, email, password, UserType.SELLER)
         self.seller_id = _id
         self.account_number = account_number

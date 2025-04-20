@@ -1,7 +1,7 @@
-from marshmallow import Schema
 
+from marshmallow import Schema, fields
 
 class SellerResponseDTO(Schema):
 
-    message: str
-    seller_id:
+    message = fields.Str()
+    seller_id = fields.Str()
