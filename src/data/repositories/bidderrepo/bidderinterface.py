@@ -14,9 +14,9 @@ class BidderInterface(ABC):
         pass
 
     @abstractmethod
-    def exists_by_id(self, seller_id: str) -> bool:
+    def exists_by_id(self, bidder_id: str) -> bool:
         pass
 
     @abstractmethod
-    def find_by_email(self, email: str) -> Seller:
+    def find_by_email(self, email: str) -> Bidder:
         pass
