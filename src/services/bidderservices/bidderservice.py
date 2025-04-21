@@ -1,10 +1,12 @@
+from datetime import timedelta
+
+from flask_jwt_extended import create_access_token
+
 from src.data.models.bidder import Bidder
 from src.data.models.cardtype import CardType
 from src.data.models.creditcardinformation import CreditCardInformation
 from src.data.repositories.bidderrepo.bidderrepository import BidderRepository
-from src.dtos.bidderdto.bidderRequest import BidderRequestDTO
 from src.dtos.bidderdto.bidderresponse import BidderResponseDTO
-from src.dtos.sellerdto.sellerresponse import SellerResponseDTO
 from src.exceptions.allexceptions import *
 from src.services.passwordsecurity.passwordencrypt import PasswordEncrypt
 
@@ -35,8 +37,12 @@ class BidderService:
             credit_card_information=credit_card_info
         )
         saved_bidder = self.bidder_repo.save_bidder(bidder)
+        access_token = create_access_token(
+            identity= str(saved_bidder.bidder_id),
+            expires_delta=timedelta(minutes=45)
+        )
         bidder_response_dto = BidderResponseDTO()
-        response_data = {"message": "You have successfully registered.", "bidder_id": str(saved_bidder.bidder_id)}
+        response_data = {"message": "You have successfully registered.", "token": access_token}
         return bidder_response_dto.dump(response_data)
 
     def login_bidder(self, bidder_login_request):
@@ -50,10 +56,17 @@ class BidderService:
 
         hashed_password = bidder.password
 
+        access_token = create_access_token(
+            identity=str(bidder.bidder_id),
+            expires_delta=timedelta(minutes=45)
+        )
+
         if not PasswordEncrypt.verify_password(password, hashed_password):
             raise InvalidDetailsException("Invalid details.")
         return {
             "message": "login successful.",
-            "first_name": f"Welcome {bidder.first_name} {bidder.last_name}"
+            "first_name": f"Welcome {bidder.first_name} {bidder.last_name}",
+            "bidder_id": str(bidder.bidder_id),
+            "token": access_token
         }
 

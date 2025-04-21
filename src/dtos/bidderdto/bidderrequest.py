@@ -1,6 +1,6 @@
 from marshmallow import Schema, fields, validate
 
-from src.dtos.creditcardrequest.creditcardRequest import CreditCardRequest
+from src.dtos.creditcardrequest.creditcardrequest import CreditCardRequest
 
 
 class BidderRequestDTO(Schema):

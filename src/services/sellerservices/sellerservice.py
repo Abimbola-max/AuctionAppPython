@@ -1,3 +1,6 @@
+from datetime import timedelta
+
+from flask_jwt_extended import create_access_token
 
 from src.data.models.seller import Seller
 from src.data.repositories.sellerrepo.sellerrepository import SellerRepository
@@ -23,9 +26,14 @@ class SellerService:
             account_number=seller_data_request["account_number"],
             bank_name=seller_data_request["bank_name"]
         )
+
         saved_seller = self.seller_repo.save_seller(seller)
+        access_token = create_access_token(
+            identity=str(saved_seller.seller_id),
+            expires_delta=timedelta(minutes=45)
+        )
         seller_response_dto = SellerResponseDTO()
-        response_data = {"message": "You have successfully registered.", "seller_id": str(saved_seller.seller_id)}
+        response_data = {"message": "You have successfully registered.", "seller_id": str(saved_seller.seller_id), "token": access_token}
         return seller_response_dto.dump(response_data)
 
 
@@ -42,9 +50,15 @@ class SellerService:
 
         if not PasswordEncrypt.verify_password(password, hashed_password):
             raise InvalidDetailsException("Invalid details.")
+        access_token = create_access_token(
+            identity=str(seller.seller_id),
+            expires_delta=timedelta(minutes=45)
+        )
         return {
             "message": "login successful.",
-            "first_name": f"Welcome {seller.first_name} {seller.last_name}"
+            "first_name": f"Welcome {seller.first_name} {seller.last_name}",
+            "seller_id": str(seller.seller_id),
+            "token": access_token
         }
 
 

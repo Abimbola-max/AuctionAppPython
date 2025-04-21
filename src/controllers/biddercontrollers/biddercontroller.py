@@ -1,7 +1,7 @@
 from flask import request, jsonify
 from marshmallow import ValidationError
 
-from src.dtos.bidderdto.bidderRequest import BidderRequestDTO
+from src.dtos.bidderdto.bidderrequest import BidderRequestDTO
 from src.dtos.bidderdto.loginrequest import LoginRequest
 from src.dtos.bidderdto.loginresponse import LoginResponse
 from src.dtos.sellerdto.sellerrequest import SellerRequestDTO
@@ -33,4 +33,4 @@ class BidderController:
         except ValidationError as err:
             return jsonify({"errors": err.messages}), 400
         except InvalidDetailsException as e:
-            return jsonify({"error": str(e)}), 401
+            return jsonify({"error": str(e)}), 500

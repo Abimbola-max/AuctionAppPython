@@ -1,4 +1,7 @@
+from datetime import timedelta
+
 from flask import Flask
+from flask_jwt_extended import JWTManager
 
 from src.controllers.biddercontrollers.biddercontroller import BidderController
 from src.controllers.productcontrollers.productcontroller import ProductController
@@ -11,6 +14,9 @@ from src.services.productservices.productservice import ProductService
 from src.services.sellerservices.sellerservice import SellerService
 
 app = Flask(__name__)
+app.config["JWT_SECRET_KEY"] = "233-ERD-WEE"
+app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(minutes=45)
+jwt = JWTManager(app)
 
 seller_repo = SellerRepository()
 seller_service = SellerService(seller_repo)
