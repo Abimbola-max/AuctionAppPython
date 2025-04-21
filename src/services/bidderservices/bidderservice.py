@@ -5,7 +5,7 @@ from src.data.repositories.bidderrepo.bidderrepository import BidderRepository
 from src.dtos.bidderdto.bidderRequest import BidderRequestDTO
 from src.dtos.bidderdto.bidderresponse import BidderResponseDTO
 from src.dtos.sellerdto.sellerresponse import SellerResponseDTO
-from src.exceptions.allexceptions import EmailAlreadyExistException
+from src.exceptions.allexceptions import *
 from src.services.passwordsecurity.passwordencrypt import PasswordEncrypt
 
 
@@ -38,4 +38,22 @@ class BidderService:
         bidder_response_dto = BidderResponseDTO()
         response_data = {"message": "You have successfully registered.", "bidder_id": str(saved_bidder.bidder_id)}
         return bidder_response_dto.dump(response_data)
+
+    def login_bidder(self, bidder_login_request):
+
+        email = bidder_login_request['email']
+        password = bidder_login_request['password'].strip()
+
+        bidder = self.bidder_repo.find_by_email(email)
+        if not bidder:
+            raise NotFoundException("Bidder not found.")
+
+        hashed_password = bidder.password
+
+        if not PasswordEncrypt.verify_password(password, hashed_password):
+            raise InvalidDetailsException("Invalid details.")
+        return {
+            "message": "login successful.",
+            "first_name": f"Welcome {bidder.first_name} {bidder.last_name}"
+        }
 

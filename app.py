@@ -41,6 +41,10 @@ def login_seller():
 def register_bidder():
     return bidder_controller.register_bidder()
 
+@app.route('/login_bidder', methods=['POST'])
+def login_bidder():
+    return bidder_controller.login_bidder()
+
 
 if __name__ == '__main__':
     app.run(debug=True)
