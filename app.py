@@ -1,5 +1,8 @@
+import os
 from datetime import timedelta
 
+import cloudinary
+from dotenv import load_dotenv
 from flask import Flask
 from flask_jwt_extended import JWTManager
 
@@ -17,6 +20,15 @@ app = Flask(__name__)
 app.config["JWT_SECRET_KEY"] = "233-ERD-WEE"
 app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(minutes=45)
 jwt = JWTManager(app)
+
+load_dotenv()
+
+cloudinary.config(
+    cloud_name=os.getenv('dpdqafc7b'),
+    api_key=os.getenv('247639762965926'),
+    api_secret=os.getenv('g-dYCPAExbB1qB4Bn4zy8P8Cvp4')
+)
+
 
 seller_repo = SellerRepository()
 seller_service = SellerService(seller_repo)

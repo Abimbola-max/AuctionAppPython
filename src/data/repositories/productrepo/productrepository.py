@@ -18,9 +18,10 @@ class ProductRepository(ProductInterface):
             "name": product.name,
             "description": product.description,
             "seller_id": product.seller_id,
-            "starting_price": product.starting_price,
-            "bid_start_time": product.bid_start_time,
-            "bid_end_time": product.bid_end_time
+            "starting_price": product.bid_minimumprice,
+            "image_url": product.image_url
+            # "bid_start_time": product.bid_start_time,
+            # "bid_end_time": product.bid_end_time
             # "created_at": product.created_at,
         }
         insert_document = self.collection.insert_one(product_data)

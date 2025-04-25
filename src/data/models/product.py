@@ -3,10 +3,11 @@ from datetime import datetime
 
 class Product:
 
-    def __init__(self, name: str, description: str, seller_id: str, starting_price, bid_start_time: datetime, bid_end_time: datetime, created_at=None, _id=None):
+    def __init__(self, name: str, description: str, seller_id: str, starting_price, bid_start_time: datetime, bid_end_time: datetime, image_url: str, created_at=None, _id=None):
         self.name = name
         self.description = description
         self.starting_price = starting_price
+        self.image_url = image_url
         self.bid_start_time = bid_start_time
         self.bid_end_time = bid_end_time
         self.seller_id = seller_id
@@ -30,11 +31,11 @@ class Product:
         self.__description = description
 
     @property
-    def starting_price(self):
+    def bid_minimumprice(self):
         return self.__starting_price
 
-    @starting_price.setter
-    def starting_price(self, starting_price):
+    @bid_minimumprice.setter
+    def bid_minimumprice(self, starting_price):
         self.__starting_price = starting_price
 
     @property
@@ -76,5 +77,13 @@ class Product:
     @product_id.setter
     def product_id(self, product_id):
         self.__product_id = product_id
+
+    @property
+    def image_url(self):
+        return self.__image_url
+
+    @image_url.setter
+    def image_url(self, image):
+        self.__image_url = image
 
 
