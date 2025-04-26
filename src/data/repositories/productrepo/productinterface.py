@@ -12,3 +12,7 @@ class ProductInterface(ABC):
     @abstractmethod
     def find_product(self, product_id: str) -> Product:
         pass
+
+    @abstractmethod
+    def update_product(self, product_id, product):
+        pass

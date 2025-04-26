@@ -24,6 +24,7 @@ class ProductRepository(ProductInterface):
             # "bid_start_time": product.bid_start_time,
             # "bid_end_time": product.bid_end_time,
             "added_at": product.added_at,
+            "product_phase": product.product_phase.value
         }
         insert_document = self.collection.insert_one(product_data)
         product.product_id = str(insert_document.inserted_id)
@@ -31,5 +32,9 @@ class ProductRepository(ProductInterface):
 
     def find_product(self, product_id: ObjectId) -> Product:
         return self.collection.find_one({"_id": product_id})
+
+    def update_product(self, product_id, product):
+        return self.collection.update_one({"_id": product_id}, {"$set": product})
+
 
 

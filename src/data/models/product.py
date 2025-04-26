@@ -1,13 +1,16 @@
 from datetime import datetime
 
+from src.data.models.productphase import ProductPhase
+
 
 class Product:
 
-    def __init__(self, name: str, description: str, seller_id: str, bid_minimum_price, image_url=None, added_at=None, _id=None):
+    def __init__(self, name: str, description: str, seller_id: str, bid_minimum_price, product_phase: ProductPhase= ProductPhase.PENDING, image_url=None, added_at=None, _id=None):
         self.name = name
         self.description = description
         self.bid_minimum_price = bid_minimum_price
         self.image_url = image_url
+        self.product_phase = product_phase
         # self.bid_start_time = bid_start_time
         # self.bid_end_time = bid_end_time
         self.seller_id = seller_id
@@ -37,6 +40,14 @@ class Product:
     @bid_minimum_price.setter
     def bid_minimum_price(self, bid_minimum_price):
         self.__bid_minimum_price = bid_minimum_price
+
+    @property
+    def product_phase(self):
+        return self.__product_phase
+
+    @product_phase.setter
+    def product_phase(self, value):
+        self.__product_phase = value
 
     # @property
     # def bid_start_time(self):

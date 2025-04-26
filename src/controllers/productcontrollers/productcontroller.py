@@ -40,6 +40,7 @@ class ProductController:
                 "message": "Product created successfully.",
                 "product_id": saved_product.product_id,
                 "image_url": saved_product.image_url,
+                "product_phase": saved_product.product_phase.value
             }), 201
 
         except ValidationError as err:

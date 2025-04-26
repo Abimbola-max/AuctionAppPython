@@ -7,3 +7,4 @@ class ProductResponse(Schema):
     product_id = fields.Str()
     added_at = fields.DateTime()
     image_url = fields.Str()
+    product_phase = fields.Str(attribute='product_phase.value')
