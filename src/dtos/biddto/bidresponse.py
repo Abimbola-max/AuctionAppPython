@@ -1,9 +1,9 @@
-from flask_jwt_extended import jwt_required
+from marshmallow import fields, Schema
 
-from src.data.repositories.bidrepo.bidrepository import BidRepository
+class BidResponse(Schema):
 
-
-class BidService:
-
-    def __init__(self, bid_repo: BidRepository):
-        self.bid_repo = bid_repo
+    message = fields.String()
+    product_id = fields.String()
+    amount = fields.Integer()
+    bid_time = fields.DateTime(format='iso')
+    bidder_id = fields.Str()

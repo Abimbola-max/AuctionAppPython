@@ -9,3 +9,6 @@ class ProductInterface(ABC):
     def create_product(self, product: Product) -> Product:
         pass
 
+    @abstractmethod
+    def find_product(self, product_id: str) -> Product:
+        pass

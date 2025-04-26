@@ -20,8 +20,6 @@ class ProductService:
             if not self.seller_repo.exists_by_id(product_data['seller_id']):
                 raise ValidationError("Invalid seller_id: Seller does not exist.")
 
-            # ProductService.__validate_time(product_data)
-
             upload_result = cloudinary.uploader.upload(
                 image_file,
                 folder='auction_products'

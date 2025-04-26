@@ -1,11 +1,14 @@
 from datetime import timedelta
 
+from bson import ObjectId
 from flask_jwt_extended import create_access_token
 
+from src.data.models.bid import Bid
 from src.data.models.bidder import Bidder
 from src.data.models.cardtype import CardType
 from src.data.models.creditcardinformation import CreditCardInformation
 from src.data.repositories.bidderrepo.bidderrepository import BidderRepository
+from src.data.repositories.bidrepo.bidrepository import BidRepository
 from src.dtos.bidderdto.bidderresponse import BidderResponseDTO
 from src.exceptions.allexceptions import *
 from src.services.passwordsecurity.passwordencrypt import PasswordEncrypt
@@ -13,8 +16,9 @@ from src.services.passwordsecurity.passwordencrypt import PasswordEncrypt
 
 class BidderService:
 
-    def __init__(self, bidder_repo: BidderRepository):
+    def __init__(self, bidder_repo: BidderRepository, bid_repo: BidRepository):
         self.bidder_repo = bidder_repo
+        self.bid_repo = bid_repo
 
     def register(self, bidder_data_request):
         if self.bidder_repo.email_exists(bidder_data_request["email"]):
@@ -69,4 +73,34 @@ class BidderService:
             "bidder_id": str(bidder.bidder_id),
             "token": access_token
         }
+
+    def place_bid(self, product_id, amount: int, bidder_id):
+        self.__validation_of_bid(product_id, amount)
+        bid = Bid(
+            product_id=product_id,
+            amount=amount,
+            bidder_id= bidder_id
+        )
+        bid_id = self.bid_repo.save_bid(bid)
+        return {
+            "product_id": product_id,
+            "amount": amount,
+            "bidder_id": bidder_id,
+            "bid_time": bid.bid_time
+        }
+
+    def __validation_of_bid(self, product_id, amount):
+        product = self.bid_repo.get_product(ObjectId(product_id))
+        print(f"product {product}")
+
+        if not product:
+            raise NotFoundException("Product not found")
+
+        if 'bid_minimum_price' not in product:
+            raise InvalidAmountException("Product has no minimum price set")
+
+        if amount < product['bid_minimum_price']:
+            raise InvalidAmountException(
+                f"Bid amount must be greater {product['bid_minimum_price']}"
+            )
 

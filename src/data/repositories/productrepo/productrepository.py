@@ -1,5 +1,6 @@
 from abc import ABC
 
+from bson import ObjectId
 from pymongo import MongoClient
 
 from src.data.models.product import Product
@@ -27,4 +28,8 @@ class ProductRepository(ProductInterface):
         insert_document = self.collection.insert_one(product_data)
         product.product_id = str(insert_document.inserted_id)
         return product
+
+    def find_product(self, product_id: ObjectId) -> Product:
+        return self.collection.find_one({"_id": product_id})
+
 
