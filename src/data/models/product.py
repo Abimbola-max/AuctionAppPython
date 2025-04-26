@@ -3,15 +3,15 @@ from datetime import datetime
 
 class Product:
 
-    def __init__(self, name: str, description: str, seller_id: str, starting_price, bid_start_time: datetime, bid_end_time: datetime, image_url: str, created_at=None, _id=None):
+    def __init__(self, name: str, description: str, seller_id: str, bid_minimum_price, image_url=None, added_at=None, _id=None):
         self.name = name
         self.description = description
-        self.starting_price = starting_price
+        self.bid_minimum_price = bid_minimum_price
         self.image_url = image_url
-        self.bid_start_time = bid_start_time
-        self.bid_end_time = bid_end_time
+        # self.bid_start_time = bid_start_time
+        # self.bid_end_time = bid_end_time
         self.seller_id = seller_id
-        self.created_at = created_at
+        self.added_at = added_at
         self.product_id = _id
 
     @property
@@ -31,28 +31,28 @@ class Product:
         self.__description = description
 
     @property
-    def bid_minimumprice(self):
-        return self.__starting_price
+    def bid_minimum_price(self):
+        return self.__bid_minimum_price
 
-    @bid_minimumprice.setter
-    def bid_minimumprice(self, starting_price):
-        self.__starting_price = starting_price
+    @bid_minimum_price.setter
+    def bid_minimum_price(self, bid_minimum_price):
+        self.__bid_minimum_price = bid_minimum_price
 
-    @property
-    def bid_start_time(self):
-        return self.__bid_start_time
+    # @property
+    # def bid_start_time(self):
+    #     return self.__bid_start_time
+    #
+    # @bid_start_time.setter
+    # def bid_start_time(self, bid_start_time):
+    #     self.__bid_start_time = bid_start_time
 
-    @bid_start_time.setter
-    def bid_start_time(self, bid_start_time):
-        self.__bid_start_time = bid_start_time
-
-    @property
-    def bid_end_time(self):
-        return self.__bid_end_time
-
-    @bid_end_time.setter
-    def bid_end_time(self, bid_end_time):
-        self.__bid_end_time = bid_end_time
+    # @property
+    # def bid_end_time(self):
+    #     return self.__bid_end_time
+    #
+    # @bid_end_time.setter
+    # def bid_end_time(self, bid_end_time):
+    #     self.__bid_end_time = bid_end_time
 
     @property
     def seller_id(self):
@@ -63,12 +63,12 @@ class Product:
         self.__seller_id = seller_id
 
     @property
-    def created_at(self):
-        return self.__created_at
+    def added_at(self):
+        return self.__added_at
 
-    @created_at.setter
-    def created_at(self, created_at):
-        self.__created_at = created_at
+    @added_at.setter
+    def added_at(self, added_at):
+        self.__added_at = added_at
 
     @property
     def product_id(self):

@@ -5,4 +5,5 @@ class ProductResponse(Schema):
 
     message = fields.Str()
     product_id = fields.Str()
-    created_at = fields.DateTime()
+    added_at = fields.DateTime()
+    image_url = fields.Str()
