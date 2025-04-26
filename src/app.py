@@ -6,14 +6,18 @@ from dotenv import load_dotenv
 from flask import Flask
 from flask_jwt_extended import JWTManager
 
+from src.controllers.admincontrollers.admincontroller import AdminController
 from src.controllers.bidcontrollers.bidcontroller import BidController
 from src.controllers.biddercontrollers.biddercontroller import BidderController
 from src.controllers.productcontrollers.productcontroller import ProductController
 from src.controllers.sellercontrollers.sellercontroller import SellerController
+from src.data.models.admin import Admin
+from src.data.repositories.adminrepo.adminrepository import AdminRepository
 from src.data.repositories.bidderrepo.bidderrepository import BidderRepository
 from src.data.repositories.bidrepo.bidrepository import BidRepository
 from src.data.repositories.productrepo.productrepository import ProductRepository
 from src.data.repositories.sellerrepo.sellerrepository import SellerRepository
+from src.services.adminservices.adminservice import AdminService
 from src.services.bidderservices.bidderservice import BidderService
 from src.services.bidservices.bidservices import BidService
 from src.services.productservices.productservice import ProductService
@@ -40,10 +44,12 @@ seller_repo = SellerRepository()
 product_repo = ProductRepository()
 bid_repo = BidRepository(product_repo)
 bidder_repo = BidderRepository()
+admin_repo = AdminRepository()
 
 seller_service = SellerService(seller_repo)
+admin_service = AdminService(admin_repo)
 seller_controller = SellerController(seller_service)
-
+admin_controller = AdminController(admin_service)
 product_service = ProductService(product_repo, seller_repo)
 bidder_service = BidderService(bidder_repo, bid_repo)
 
@@ -78,6 +84,10 @@ def login_bidder():
 @app.route('/place_bid', methods=['POST'])
 def place_bid():
     return bid_controller.place_bid()
+
+@app.route('/login_admin', methods=['POST'])
+def login_admin():
+    return admin_controller.admin_login()
 
 
 if __name__ == '__main__':
