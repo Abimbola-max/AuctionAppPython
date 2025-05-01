@@ -2,7 +2,6 @@ from pymongo import MongoClient
 
 from src.data.models.bidder import Bidder
 from src.data.models.creditcardinformation import CreditCardInformation
-from src.data.models.seller import Seller
 from src.data.repositories.bidderrepo.bidderinterface import BidderInterface
 from src.exceptions.allexceptions import *
 
@@ -52,3 +51,17 @@ class BidderRepository(BidderInterface):
         if not data:
             raise NotFoundException("Not found.")
         return Bidder(**data)
+
+    def update_bid(self, product_id: str, bid_price: int):
+        product = self.collection.find_one({'_id': product_id})
+        if not product:
+            raise NotFoundException("Product Not found.")
+        if bid_price <= product['current_price']:
+            raise InvalidAmountException('Bid must be higher than the current price')
+        self.collection.update_one({'_id': product_id}, {'$set': {'current_price': bid_price}})
+
+    def get_current_price(self, product_id):
+        product = self.collection.find_one({'_id': product_id})
+        if not product:
+            raise NotFoundException("Product Not found.")
+        return product['current_price']

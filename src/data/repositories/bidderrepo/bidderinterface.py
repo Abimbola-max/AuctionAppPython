@@ -20,3 +20,11 @@ class BidderInterface(ABC):
     @abstractmethod
     def find_by_email(self, email: str) -> Bidder:
         pass
+
+    @abstractmethod
+    def update_bid(self, product_id: str, bid_price: int):
+        pass
+
+    @abstractmethod
+    def get_current_price(self, product_id):
+        pass

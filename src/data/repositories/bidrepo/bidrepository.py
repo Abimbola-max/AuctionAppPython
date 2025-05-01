@@ -2,10 +2,11 @@ from bson import ObjectId
 from pymongo import MongoClient
 
 from src.data.models.bid import Bid
+from src.data.repositories.bidrepo.bidinterface import BidInterface
 from src.data.repositories.productrepo.productrepository import ProductRepository
 
 
-class BidRepository:
+class BidRepository(BidInterface):
     def __init__(self, product_repo: ProductRepository):
         self.product_repo = product_repo
         self.client = MongoClient('mongodb://localhost:27017/')

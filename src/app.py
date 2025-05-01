@@ -47,11 +47,11 @@ bidder_repo = BidderRepository()
 admin_repo = AdminRepository()
 
 seller_service = SellerService(seller_repo)
-admin_service = AdminService(admin_repo)
+admin_service = AdminService(admin_repo, product_repo, bidder_repo)
 seller_controller = SellerController(seller_service)
 admin_controller = AdminController(admin_service)
 product_service = ProductService(product_repo, seller_repo)
-bidder_service = BidderService(bidder_repo, bid_repo)
+bidder_service = BidderService(bidder_repo, bid_repo, product_repo)
 
 product_controller = ProductController(product_service)
 
@@ -88,6 +88,16 @@ def place_bid():
 @app.route('/login_admin', methods=['POST'])
 def login_admin():
     return admin_controller.admin_login()
+
+@app.route('/accept_product', methods=[])
+
+@app.route('/start_auction', methods=['POST'])
+def start_auction():
+    return admin_controller.start_auction()
+
+# @app.route('/update_bid', methods=['PUT'])
+# def update_bid():
+#     return bidder_controller.update_bid()
 
 
 if __name__ == '__main__':

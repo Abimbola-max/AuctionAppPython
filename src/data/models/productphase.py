@@ -8,3 +8,4 @@ class ProductPhase(Enum):
     AUCTIONED_OUT = "AUCTIONED_OUT"
     PENDING = "PENDING"
     ONGOING = "ONGOING"
+    ENDED = "ENDED"

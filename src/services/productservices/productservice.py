@@ -34,6 +34,7 @@ class ProductService:
                 seller_id=product_data['seller_id'],
                 bid_minimum_price=product_data['bid_minimum_price'],
                 image_url=image_url,
+                current_price=product_data['bid_minimum_price'],
                 added_at=datetime.datetime.now().strftime("%Y-%m-%d %H:%M"),
                 product_phase=ProductPhase(product_data.get('product_phase', ProductPhase.PENDING.value))
             )

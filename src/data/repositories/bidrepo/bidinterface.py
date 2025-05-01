@@ -1,5 +1,7 @@
 from abc import ABC, abstractmethod
 
+from src.data.models.bid import Bid
+
 
 class BidInterface(ABC):
 

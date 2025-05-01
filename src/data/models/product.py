@@ -5,7 +5,7 @@ from src.data.models.productphase import ProductPhase
 
 class Product:
 
-    def __init__(self, name: str, description: str, seller_id: str, bid_minimum_price, product_phase: ProductPhase= ProductPhase.PENDING, image_url=None, added_at=None, _id=None):
+    def __init__(self, name: str, description: str, seller_id: str, bid_minimum_price, product_phase: ProductPhase= ProductPhase.PENDING, image_url=None, added_at=None, current_price=None, _id=None):
         self.name = name
         self.description = description
         self.bid_minimum_price = bid_minimum_price
@@ -13,6 +13,7 @@ class Product:
         self.product_phase = product_phase
         # self.bid_start_time = bid_start_time
         # self.bid_end_time = bid_end_time
+        self.current_price = current_price
         self.seller_id = seller_id
         self.added_at = added_at
         self.product_id = _id
@@ -48,6 +49,14 @@ class Product:
     @product_phase.setter
     def product_phase(self, value):
         self.__product_phase = value
+
+    @property
+    def current_price(self):
+        return self.__current_price
+
+    @current_price.setter
+    def current_price(self, price):
+        self.__current_price = price
 
     # @property
     # def bid_start_time(self):
