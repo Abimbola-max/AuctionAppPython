@@ -13,6 +13,7 @@ from src.controllers.productcontrollers.productcontroller import ProductControll
 from src.controllers.sellercontrollers.sellercontroller import SellerController
 from src.data.models.admin import Admin
 from src.data.repositories.adminrepo.adminrepository import AdminRepository
+from src.data.repositories.auctionrepo.auctionrepository import AuctionRepository
 from src.data.repositories.bidderrepo.bidderrepository import BidderRepository
 from src.data.repositories.bidrepo.bidrepository import BidRepository
 from src.data.repositories.productrepo.productrepository import ProductRepository
@@ -22,8 +23,10 @@ from src.services.bidderservices.bidderservice import BidderService
 from src.services.bidservices.bidservices import BidService
 from src.services.productservices.productservice import ProductService
 from src.services.sellerservices.sellerservice import SellerService
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
 app.config["JWT_SECRET_KEY"] = "233-ERD-WEE"
 app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(minutes=45)
 app.config['JWT_TOKEN_LOCATION'] = ['headers']
@@ -45,9 +48,10 @@ product_repo = ProductRepository()
 bid_repo = BidRepository(product_repo)
 bidder_repo = BidderRepository()
 admin_repo = AdminRepository()
+auction_repo = AuctionRepository()
 
 seller_service = SellerService(seller_repo)
-admin_service = AdminService(admin_repo, product_repo, bidder_repo)
+admin_service = AdminService(admin_repo, product_repo, bidder_repo, auction_repo)
 seller_controller = SellerController(seller_service)
 admin_controller = AdminController(admin_service)
 product_service = ProductService(product_repo, seller_repo)
